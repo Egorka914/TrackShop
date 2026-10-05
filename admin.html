@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrackShop · CRM</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  body{background:#0a0a0c}
+  .layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+  .sidebar{background:var(--bg-2);border-right:1px solid var(--border);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+  .sidebar .logo{font-size:19px;margin-bottom:32px;display:block;padding-left:8px}
+  .sidebar nav a{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:9px;
+    color:var(--text-2);margin-bottom:4px;cursor:pointer;transition:var(--transition);font-weight:500;font-size:14px}
+  .sidebar nav a:hover{background:var(--bg);color:var(--text)}
+  .sidebar nav a.active{background:var(--bg);color:var(--orange);font-weight:700}
+  .main{padding:32px;overflow-x:auto}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:20px;flex-wrap:wrap}
+  .topbar h1{margin:0;font-size:26px;font-weight:800;letter-spacing:-.5px}
+  .topbar .who{color:var(--muted);font-size:13px;margin-top:4px}
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:28px}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:var(--transition)}
+  .stat:hover{border-color:var(--orange)}
+  .stat .lbl{color:var(--muted);font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+  .stat .val{font-size:30px;font-weight:800;color:var(--orange);letter-spacing:-1px;line-height:1}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:20px}
+  .panel h3{margin:0 0 18px;color:var(--orange);font-size:16px;font-weight:700}
+  .toolbar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .toolbar input,.toolbar select{padding:10px 14px;background:var(--bg);border:1px solid var(--border);
+    color:var(--text);border-radius:var(--radius-sm);font-size:14px}
+  .row-actions{display:flex;gap:6px;flex-wrap:wrap}
+  .mini{padding:5px 11px;font-size:12px}
+  .login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:500}
+  .login-card{background:var(--bg-2);border:1px solid var(--border);border-radius:16px;padding:38px;width:100%;max-width:400px;box-shadow:var(--shadow)}
+  .login-card h1{margin:0 0 6px;font-size:22px;font-weight:800}
+  .login-card p{color:var(--muted);margin:0 0 24px;font-size:13px}
+  .order-detail{background:var(--bg);border-radius:10px;padding:20px;margin-top:14px;border:1px solid var(--border)}
+  .detail-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+  .detail-item:last-child{border-bottom:none}
+  .modal-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .modal-form-grid .full{grid-column:1/-1}
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1>🚛 TrackShop CRM</h1>
+    <p>Вход для сотрудников · по умолчанию admin / admin</p>
+    <form id="adminLoginForm" class="form">
+      <div class="field"><label>Email / логин</label><input type="text" name="email" required autocomplete="username"></div>
+      <div class="field"><label>Пароль</label>
+        <div class="field-password">
+          <input type="password" name="password" required autocomplete="current-password">
+          <button type="button" class="pwd-toggle">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" style="justify-content:center">Войти</button>
+      <p class="msg err" id="adminMsg"></p>
+    </form>
+  </div>
+</div>
+
+<div class="layout hidden" id="appLayout">
+  <aside class="sidebar">
+    <a class="logo">🚛 Track<span style="color:var(--orange)">Shop</span><br><small style="font-size:11px;color:var(--muted);font-weight:400">CRM v1</small></a>
+    <nav id="sideNav">
+      <a data-view="dashboard" class="active">📊 Дашборд</a>
+      <a data-view="orders">📦 Заказы</a>
+      <a data-view="products">🏷️ Товары</a>
+      <a data-view="users">👥 Клиенты</a>
+    </nav>
+    <div style="margin-top:40px;padding:0 8px">
+      <button class="btn btn-ghost" id="adminLogout" style="width:100%;justify-content:center">Выйти</button>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <h1 id="pageTitle">Дашборд</h1>
+        <div class="who" id="adminInfo"></div>
+      </div>
+      <div id="topActions"></div>
+    </div>
+    <div id="viewContent"></div>
+  </main>
+</div>
+
+<script src="assets/js/common.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="assets/js/boot.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrackShop — оптовые и розничные аксессуары для грузовиков</title>
+<meta name="description" content="Оптовые и розничные поставки аксессуаров для грузовой техники. Розница всем, опт — юрлицам после подтверждения.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">🚛 Track<span>Shop</span></a>
+    <nav class="nav-links">
+      <a href="#catalog">Каталог</a>
+      <a href="#about">О нас</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" id="cartBtn">🛒 Корзина <span class="badge" id="cartCount">0</span></button>
+      <button class="btn btn-primary" id="loginBtn">Войти</button>
+      <div id="userBox" class="user-box hidden">
+        <span class="user-chip"><span class="dot"></span><span id="userName"></span></span>
+        <button class="btn btn-ghost" id="logoutBtn">Выйти</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Аксессуары и запчасти<br>для <em>грузовой техники</em></h1>
+    <p>Розничные цены — всем. <b style="color:var(--orange)">Оптовые</b> — юрлицам и ИП после подтверждения аккаунта.</p>
+    <div class="hero-actions">
+      <a href="#catalog" class="btn btn-primary btn-lg">Перейти в каталог</a>
+      <button class="btn btn-ghost btn-lg" onclick="TS.openModal('authModal')">Стать оптовым партнёром</button>
+    </div>
+  </div>
+</section>
+
+<section id="catalog" class="container section">
+  <h2 class="section-title">Каталог</h2>
+  <p class="section-sub">Более 1000 позиций на складе. Отгрузка в течение 24 часов.</p>
+  <div id="wholesaleNotice" class="wholesale-notice hidden"></div>
+  <div class="filters">
+    <input type="search" id="searchInput" placeholder="🔎 Поиск по названию или SKU...">
+    <select id="categorySelect"><option value="">Все категории</option></select>
+  </div>
+  <div id="products" class="grid"></div>
+</section>
+
+<section id="about" class="container section">
+  <h2 class="section-title">Почему TrackShop</h2>
+  <p class="section-sub">10 лет на рынке поставок для грузового транспорта.</p>
+  <div class="grid grid-3">
+    <div class="card-feature"><h3>🏭 Прямые поставки</h3><p>Собственные контракты с заводами. Без посредников.</p></div>
+    <div class="card-feature"><h3>🛒 Розница и опт</h3><p>Покупайте как физлицо или оформляйте опт после активации.</p></div>
+    <div class="card-feature"><h3>🚚 Доставка по РФ</h3><p>Собственная логистика + партнёрские ТК.</p></div>
+    <div class="card-feature"><h3>📄 Документооборот</h3><p>Счёт, УПД, ТОРГ-12 автоматически. НДС и без.</p></div>
+    <div class="card-feature"><h3>🔒 Надёжно</h3><p>Prepared statements, CSRF, пароли bcrypt.</p></div>
+    <div class="card-feature"><h3>📞 Персональный менеджер</h3><p>За каждым оптовым клиентом закреплён менеджер.</p></div>
+  </div>
+</section>
+
+<footer id="contacts" class="footer">
+  <div class="container footer-inner">
+    <div>© 2025 TrackShop · Опт и розница для грузовиков</div>
+    <div>opt@trackshop.pro · +7 (800) 000-00-00</div>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <button class="modal-close" data-close>&times;</button>
+    <h2 class="modal-title">Личный кабинет</h2>
+    <p class="modal-sub">Розница или опт — выбирайте при регистрации</p>
+    <div class="tabs">
+      <button class="tab active" data-tab="login">Вход</button>
+      <button class="tab" data-tab="register">Регистрация</button>
+    </div>
+
+    <form id="loginForm" class="form">
+      <div class="field"><label>Email</label><input type="email" name="email" required autocomplete="email"></div>
+      <div class="field"><label>Пароль</label>
+        <div class="field-password">
+          <input type="password" name="password" required autocomplete="current-password">
+          <button type="button" class="pwd-toggle">👁</button>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" style="justify-content:center">Войти</button>
+      <p class="msg" id="loginMsg"></p>
+    </form>
+
+    <form id="registerForm" class="form hidden">
+      <div class="field">
+        <label>Тип аккаунта *</label>
+        <select name="type" id="regType">
+          <option value="retail">🛒 Розница (физлицо / для себя)</option>
+          <option value="wholesale">🏢 Опт (юрлицо / ИП)</option>
+        </select>
+      </div>
+      <div class="field"><label>Название компании / ФИО *</label><input type="text" name="company" required maxlength="200"></div>
+      <div class="field"><label>Email *</label><input type="email" name="email" required></div>
+      <div class="field"><label>Пароль * (мин. 6 символов)</label>
+        <div class="field-password">
+          <input type="password" name="password" required minlength="6" autocomplete="new-password">
+          <button type="button" class="pwd-toggle">👁</button>
+        </div>
+      </div>
+      <div class="field" data-opt-only><label>ИНН *</label><input type="text" name="inn" maxlength="20"></div>
+      <div class="field" data-opt-only><label>КПП</label><input type="text" name="kpp" maxlength="20"></div>
+      <div class="field"><label>Телефон</label><input type="tel" name="phone" maxlength="30"></div>
+      <div class="field" data-opt-only><label>Юридический адрес</label><input type="text" name="address" maxlength="300"></div>
+      <button class="btn btn-primary" type="submit" style="justify-content:center">Отправить заявку</button>
+      <p class="msg" id="regMsg"></p>
+    </form>
+  </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
+  <div class="modal-content modal-wide">
+    <button class="modal-close" data-close>&times;</button>
+    <h2 class="modal-title">Корзина</h2>
+    <p class="modal-sub">Проверьте состав и оформите заказ</p>
+    <div id="cartItems"></div>
+    <div class="cart-total">Итого с НДС:<b id="cartTotal">0 ₽</b></div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Способ получения</label>
+      <select id="deliveryMethod">
+        <option value="pickup">Самовывоз со склада</option>
+        <option value="delivery">Доставка ТК</option>
+      </select>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Адрес доставки (если ТК)</label>
+      <input type="text" id="deliveryAddress" maxlength="300" placeholder="Город, адрес">
+    </div>
+    <div class="field" style="margin-bottom:18px">
+      <label>Комментарий к заказу</label>
+      <textarea id="orderComment" maxlength="1000" rows="3"></textarea>
+    </div>
+    <button class="btn btn-primary btn-lg" id="checkoutBtn" style="width:100%;justify-content:center">Оформить заказ</button>
+    <p class="msg" id="orderMsg" style="text-align:center"></p>
+  </div>
+</div>
+
+<script>
+// Скрываем поля ИНН/КПП/адрес для розницы
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.getElementById('regType');
+  const opt = document.querySelectorAll('[data-opt-only]');
+  function toggle() {
+    const w = sel.value === 'wholesale';
+    opt.forEach(f => f.style.display = w ? 'flex' : 'none');
+    opt.forEach(f => f.querySelector('input').required = w && f.querySelector('input').name === 'inn');
+  }
+  sel.addEventListener('change', toggle);
+  toggle();
+});
+</script>
+
+<script src="assets/js/common.js"></script>
+<script src="assets/js/shop.js"></script>
+<script src="assets/js/boot.js"></script>
+</body>
+</html>
